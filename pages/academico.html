@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 03: Calificaciones y Control de Asistencia - Intranet Escolar</title>
+</head>
+<body>
+
+  <!-- CABECERA PRINCIPAL Y SELECTOR DE ROL -->
+  <header>
+    <h1>Módulo Académico: Calificaciones y Control de Asistencia</h1>
+    <p>Sistema de Gestión Académica - Intranet Escolar</p>
+    
+    <!-- Selector de Rol / Modo de Prueba -->
+    <fieldset>
+      <legend><strong>Modo de Prueba / Selección de Rol</strong></legend>
+      <label for="selector-rol">Visualizar Sistema Como:</label>
+      <select id="selector-rol">
+        <option value="docente" selected>Vista Docente</option>
+        <option value="estudiante">Vista Estudiante / Familia</option>
+      </select>
+    </fieldset>
+  </header>
+
+  <hr>
+
+  <main>
+    <!-- ========================================== -->
+    <!-- 1. VISTA PARA DOCENTES                    -->
+    <!-- ========================================== -->
+    <section id="vista-docente">
+      <h2>Panel del Docente</h2>
+      
+      <!-- Controles de Selección de Grupo y Asignatura -->
+      <fieldset>
+        <legend>Filtros de Clase</legend>
+        <label for="select-grupo">Grupo / Sección:</label>
+        <select id="select-grupo">
+          <!-- Opciones cargadas dinámicamente con JS -->
+        </select>
+
+        &nbsp;&nbsp;
+
+        <label for="select-asignatura">Asignatura:</label>
+        <select id="select-asignatura">
+          <!-- Opciones cargadas dinámicamente con JS -->
+        </select>
+      </fieldset>
+
+      <br>
+
+      <!-- Navegación por Pestañas Docente -->
+      <nav>
+        <button id="btn-tab-calificaciones" type="button"><strong>1. Carga de Calificaciones</strong></button>
+        <button id="btn-tab-asistencia" type="button"><strong>2. Control de Asistencia</strong></button>
+      </nav>
+
+      <br>
+
+      <!-- Pestaña 1: Carga de Calificaciones -->
+      <article id="sec-calificaciones">
+        <h3>1. Carga y Edición de Calificaciones</h3>
+        <p><em>Ingrese o modifique las notas de cada estudiante. La nota final se calculará automáticamente en tiempo real.</em></p>
+        
+        <table border="1" cellpadding="8" cellspacing="0" id="tabla-calificaciones">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Estudiante</th>
+              <th>Tarea 1 (Pts)</th>
+              <th>Examen 1 (Pts)</th>
+              <th>Cotidiano (Pts)</th>
+              <th>Nota Final Calculada</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-calificaciones">
+            <!-- Filas generadas dinámicamente por academico.js -->
+          </tbody>
+        </table>
+
+        <br>
+
+        <button id="btn-guardar-calificaciones" type="button">Guardar Calificaciones</button>
+        <span id="msg-calificaciones" style="margin-left: 10px;"></span>
+      </article>
+
+      <!-- Pestaña 2: Control de Asistencia -->
+      <article id="sec-asistencia" style="display: none;">
+        <h3>2. Control de Asistencia Diaria</h3>
+        
+        <label for="input-fecha-asistencia"><strong>Fecha de Registro:</strong></label>
+        <input type="date" id="input-fecha-asistencia">
+
+        <br><br>
+
+        <table border="1" cellpadding="8" cellspacing="0" id="tabla-asistencia">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Estudiante</th>
+              <th>Estado de Asistencia</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-asistencia">
+            <!-- Filas generadas dinámicamente por academico.js -->
+          </tbody>
+        </table>
+
+        <br>
+
+        <button id="btn-guardar-asistencia" type="button">Guardar Asistencia</button>
+        <span id="msg-asistencia" style="margin-left: 10px;"></span>
+      </article>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. VISTA PARA ESTUDIANTES / FAMILIAS      -->
+    <!-- ========================================== -->
+    <section id="vista-estudiante" style="display: none;">
+      <h2>Panel del Estudiante / Familia (Solo Lectura)</h2>
+
+      <!-- Selector de Periodo Lectivo -->
+      <fieldset>
+        <legend>Filtro de Periodo</legend>
+        <label for="select-periodo-estudiante">Periodo Lectivo:</label>
+        <select id="select-periodo-estudiante">
+          <option value="T1" selected>1° Trimestre</option>
+          <option value="T2">2° Trimestre</option>
+        </select>
+      </fieldset>
+
+      <br>
+
+      <!-- Resumen General del Estudiante -->
+      <section id="resumen-estudiante">
+        <h3>Resumen Académico General</h3>
+        <p><strong>Estudiante:</strong> <span id="estudiante-nombre-display">María Rodríguez</span></p>
+        
+        <table border="1" cellpadding="8" cellspacing="0">
+          <tr>
+            <td><strong>Promedio General:</strong></td>
+            <td><strong id="promedio-general-val">0.00</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Total de Días Lectivos:</strong></td>
+            <td id="dias-lectivos-val">0</td>
+          </tr>
+          <tr>
+            <td><strong>Total Ausencias:</strong></td>
+            <td id="total-ausencias-val">0</td>
+          </tr>
+          <tr>
+            <td><strong>Ausencias Injustificadas:</strong></td>
+            <td id="ausencias-injustificadas-val">0</td>
+          </tr>
+        </table>
+      </section>
+
+      <br>
+
+      <!-- Tabla de Boletín de Notas -->
+      <article>
+        <h3>Boletín de Notas</h3>
+        <table border="1" cellpadding="8" cellspacing="0" id="tabla-boletin">
+          <thead>
+            <tr>
+              <th>Asignatura</th>
+              <th>Tarea 1</th>
+              <th>Examen 1</th>
+              <th>Cotidiano</th>
+              <th>Promedio Final</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-boletin">
+            <!-- Filas generadas dinámicamente por academico.js -->
+          </tbody>
+        </table>
+      </article>
+
+      <br>
+
+      <!-- Resumen de Asistencia -->
+      <article>
+        <h3>Detalle de Asistencia</h3>
+        <p id="asistencia-detalle-resumen">Cargando datos de asistencia...</p>
+      </article>
+    </section>
+
+  </main>
+
+  <hr>
+
+  <footer>
+    <p><small>Módulo 03 - Intranet Escolar &copy; 2026. Todos los derechos reservados.</small></p>
+  </footer>
+
+  <!-- Lógica en JS Vanilla -->
+  <script src="academico.js"></script>
+</body>
+</html>
