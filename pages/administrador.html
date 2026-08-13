@@ -1,0 +1,2064 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Administrador | EduCampus</title>
+
+
+    <style>
+
+        /* =====================================================
+           VARIABLES
+           ===================================================== */
+
+        :root {
+
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+
+            --purple: #7c3aed;
+
+            --success: #16a34a;
+            --success-bg: #ecfdf3;
+
+            --warning: #d97706;
+            --warning-bg: #fff8e6;
+
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+
+            --background: #f4f7fb;
+            --white: #ffffff;
+
+            --text: #172033;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+
+            --border: #e2e8f0;
+            --border-light: #eef2f7;
+
+            --shadow-sm:
+                0 3px 10px
+                rgba(15, 23, 42, 0.05);
+
+            --shadow-md:
+                0 10px 30px
+                rgba(15, 23, 42, 0.09);
+
+            --shadow-lg:
+                0 20px 50px
+                rgba(15, 23, 42, 0.13);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-xl: 24px;
+
+            --transition: 0.25s ease;
+        }
+
+
+        /* =====================================================
+           RESET
+           ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                Inter,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: var(--background);
+
+            color: var(--text);
+
+            min-height: 100vh;
+
+            line-height: 1.5;
+        }
+
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           APP
+           ===================================================== */
+
+        .app {
+
+            display: flex;
+
+            min-height: 100vh;
+
+            width: 100%;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+           ===================================================== */
+
+        .sidebar {
+
+            width: 265px;
+
+            min-width: 265px;
+
+            height: 100vh;
+
+            position: sticky;
+
+            top: 0;
+
+            display: flex;
+
+            flex-direction: column;
+
+            padding: 20px 15px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%
+                );
+
+            border-right: 1px solid var(--border);
+
+            z-index: 20;
+        }
+
+
+        /* LOGO */
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            padding: 7px 10px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .logo-icon {
+
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            color: white;
+
+            font-size: 21px;
+
+            box-shadow:
+                0 8px 18px
+                rgba(37, 99, 235, 0.25);
+        }
+
+
+        .logo h2 {
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.5px;
+        }
+
+
+        /* =====================================================
+           ADMIN MINI PROFILE
+           ===================================================== */
+
+        .usuario-mini {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 14px;
+
+            margin-bottom: 25px;
+
+            box-shadow: var(--shadow-sm);
+        }
+
+
+        .avatar {
+
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 800;
+        }
+
+
+        .usuario-mini strong {
+
+            display: block;
+
+            font-size: 14px;
+        }
+
+
+        .usuario-mini small {
+
+            color: var(--text-secondary);
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           MENU
+           ===================================================== */
+
+        #menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+        }
+
+
+        .menu-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            padding: 12px 13px;
+
+            border-radius: 10px;
+
+            color: var(--text-secondary);
+
+            font-size: 13px;
+
+            font-weight: 650;
+
+            transition:
+                background var(--transition),
+                color var(--transition),
+                transform var(--transition);
+        }
+
+
+        .menu-item:hover {
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+
+            transform: translateX(3px);
+        }
+
+
+        .menu-item.activo {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #eff6ff,
+                    #f8fbff
+                );
+
+            color: var(--primary);
+
+            font-weight: 800;
+
+            box-shadow:
+                inset 3px 0 0 var(--primary);
+        }
+
+
+        /* =====================================================
+           LOGOUT
+           ===================================================== */
+
+        .cerrar-sesion {
+
+            margin-top: auto;
+
+            border: 1px solid #fecaca;
+
+            background: var(--danger-bg);
+
+            color: var(--danger);
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            font-weight: 700;
+
+            transition: var(--transition);
+        }
+
+
+        .cerrar-sesion:hover {
+
+            background: #fee2e2;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           CONTENIDO
+           ===================================================== */
+
+        .contenido {
+
+            flex: 1;
+
+            padding: 30px;
+
+            max-width: 1650px;
+
+            margin: auto;
+
+            width: 100%;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+           ===================================================== */
+
+        .topbar {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .topbar h1 {
+
+            font-size: 30px;
+
+            line-height: 1.2;
+
+            letter-spacing: -0.8px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .topbar p {
+
+            color: var(--text-secondary);
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           BOTÓN ACTUALIZAR
+           ===================================================== */
+
+        .btn-admin {
+
+            border: 0;
+
+            padding: 11px 17px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #3b82f6
+                );
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 750;
+
+            box-shadow:
+                0 7px 16px
+                rgba(37, 99, 235, 0.22);
+
+            transition: var(--transition);
+        }
+
+
+        .btn-admin:hover {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary-dark),
+                    var(--primary)
+                );
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 20px
+                rgba(37, 99, 235, 0.26);
+        }
+
+
+        /* =====================================================
+           ESTADÍSTICAS
+           ===================================================== */
+
+        .admin-estadisticas {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 16px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .admin-stat {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 17px;
+
+            padding: 20px;
+
+            box-shadow: var(--shadow-sm);
+
+            transition:
+                transform var(--transition),
+                box-shadow var(--transition);
+        }
+
+
+        .admin-stat::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 70px;
+            height: 70px;
+
+            border-radius: 50%;
+
+            background: var(--primary-light);
+
+            right: -22px;
+            top: -22px;
+        }
+
+
+        .admin-stat:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow: var(--shadow-md);
+        }
+
+
+        .admin-stat small {
+
+            display: block;
+
+            position: relative;
+
+            z-index: 2;
+
+            color: var(--text-secondary);
+
+            font-size: 12px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .admin-stat h2 {
+
+            position: relative;
+
+            z-index: 2;
+
+            font-size: 28px;
+
+            font-weight: 850;
+
+            letter-spacing: -0.5px;
+        }
+
+
+        #totalPasando {
+
+            color: var(--success);
+        }
+
+
+        #totalAplazados {
+
+            color: var(--warning);
+        }
+
+
+        #totalReprobados {
+
+            color: var(--danger);
+        }
+
+
+        /* =====================================================
+           LEYENDA
+           ===================================================== */
+
+        .leyenda-estados {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .leyenda {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 8px 11px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 650;
+        }
+
+
+        .leyenda-color {
+
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+        }
+
+
+        .leyenda.verde {
+
+            background: var(--success-bg);
+
+            color: var(--success);
+        }
+
+
+        .leyenda.verde .leyenda-color {
+
+            background: var(--success);
+        }
+
+
+        .leyenda.amarillo {
+
+            background: var(--warning-bg);
+
+            color: var(--warning);
+        }
+
+
+        .leyenda.amarillo .leyenda-color {
+
+            background: #eab308;
+        }
+
+
+        .leyenda.rojo {
+
+            background: var(--danger-bg);
+
+            color: var(--danger);
+        }
+
+
+        .leyenda.rojo .leyenda-color {
+
+            background: var(--danger);
+        }
+
+
+        /* =====================================================
+           LAYOUT PRINCIPAL
+           ===================================================== */
+
+        .admin-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.45fr)
+                minmax(350px, 0.8fr);
+
+            gap: 20px;
+
+            align-items: start;
+        }
+
+
+        /* =====================================================
+           PANEL
+           ===================================================== */
+
+        .panel {
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 23px;
+
+            box-shadow: var(--shadow-sm);
+        }
+
+
+        .panel-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .panel-header h2 {
+
+            font-size: 18px;
+
+            letter-spacing: -0.25px;
+        }
+
+
+        .panel-header p {
+
+            margin-top: 4px;
+        }
+
+
+        /* =====================================================
+           BUSCADOR
+           ===================================================== */
+
+        .busqueda-container {
+
+            position: relative;
+
+            margin-bottom: 16px;
+        }
+
+
+        .busqueda-container input {
+
+            width: 100%;
+
+            padding: 14px 16px 14px 44px;
+
+            background: #fbfdff;
+
+            border: 1px solid var(--border);
+
+            border-radius: 11px;
+
+            color: var(--text);
+
+            outline: none;
+
+            font-size: 13px;
+
+            transition: var(--transition);
+        }
+
+
+        .busqueda-container input:focus {
+
+            background: white;
+
+            border-color: #93c5fd;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(37, 99, 235, 0.08);
+        }
+
+
+        /* =====================================================
+           FILTROS
+           ===================================================== */
+
+        .filtros-admin {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .filtro-admin {
+
+            border: 1px solid var(--border);
+
+            background: white;
+
+            color: var(--text-secondary);
+
+            padding: 8px 13px;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            transition: var(--transition);
+        }
+
+
+        .filtro-admin:hover {
+
+            border-color: #bfdbfe;
+
+            color: var(--primary);
+        }
+
+
+        .filtro-admin.activo {
+
+            background: var(--primary);
+
+            border-color: var(--primary);
+
+            color: white;
+
+            box-shadow:
+                0 5px 12px
+                rgba(37, 99, 235, 0.17);
+        }
+
+
+        /* =====================================================
+           LISTA DE ESTUDIANTES
+           ===================================================== */
+
+        .estudiantes-lista {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 9px;
+        }
+
+
+        .estudiante-row {
+
+            display: grid;
+
+            grid-template-columns:
+                auto
+                minmax(0, 1fr)
+                auto
+                auto;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 13px;
+
+            background: white;
+
+            border: 1px solid var(--border-light);
+
+            border-radius: 13px;
+
+            cursor: pointer;
+
+            transition:
+                transform var(--transition),
+                border-color var(--transition),
+                box-shadow var(--transition);
+        }
+
+
+        .estudiante-row:hover {
+
+            border-color: #bfdbfe;
+
+            transform: translateY(-2px);
+
+            box-shadow: var(--shadow-sm);
+        }
+
+
+        .estudiante-avatar {
+
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        .estudiante-info {
+
+            min-width: 0;
+        }
+
+
+        .estudiante-info strong {
+
+            display: block;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+            font-size: 14px;
+        }
+
+
+        .estudiante-info small {
+
+            display: block;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+            color: var(--text-secondary);
+
+            font-size: 11px;
+
+            margin-top: 2px;
+        }
+
+
+        .promedio {
+
+            min-width: 55px;
+
+            text-align: center;
+
+            font-size: 18px;
+
+            font-weight: 850;
+        }
+
+
+        .estado-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-width: 95px;
+
+            padding: 7px 9px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 850;
+
+            letter-spacing: 0.2px;
+        }
+
+
+        .estado-pasa {
+
+            background: var(--success-bg);
+
+            color: var(--success);
+        }
+
+
+        .estado-aplazado {
+
+            background: var(--warning-bg);
+
+            color: var(--warning);
+        }
+
+
+        .estado-reprobado {
+
+            background: var(--danger-bg);
+
+            color: var(--danger);
+        }
+
+
+        /* =====================================================
+           DETALLE DEL ESTUDIANTE
+           ===================================================== */
+
+        .detalle-estudiante {
+
+            position: sticky;
+
+            top: 20px;
+
+            box-shadow: var(--shadow-md);
+        }
+
+
+        .detalle-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding-bottom: 20px;
+
+            border-bottom: 1px solid var(--border-light);
+
+            margin-bottom: 18px;
+        }
+
+
+        .detalle-avatar {
+
+            width: 68px;
+            height: 68px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: 850;
+
+            box-shadow:
+                0 9px 22px
+                rgba(37, 99, 235, 0.2);
+        }
+
+
+        .detalle-header h2 {
+
+            font-size: 19px;
+
+            line-height: 1.2;
+        }
+
+
+        .detalle-header p {
+
+            color: var(--text-secondary);
+
+            font-size: 12px;
+
+            margin-top: 3px;
+        }
+
+
+        /* =====================================================
+           RESUMEN ACADÉMICO
+           ===================================================== */
+
+        .resumen-academico {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .dato-academico {
+
+            padding: 13px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #fbfdff,
+                    #f8fafc
+                );
+
+            border: 1px solid var(--border-light);
+
+            border-radius: 11px;
+        }
+
+
+        .dato-academico small {
+
+            display: block;
+
+            color: var(--text-secondary);
+
+            font-size: 10px;
+
+            margin-bottom: 3px;
+        }
+
+
+        .dato-academico strong {
+
+            font-size: 17px;
+        }
+
+
+        /* =====================================================
+           SECCIONES DEL DETALLE
+           ===================================================== */
+
+        .detalle-seccion {
+
+            margin-top: 20px;
+        }
+
+
+        .detalle-seccion h3 {
+
+            font-size: 14px;
+
+            margin-bottom: 11px;
+        }
+
+
+        /* =====================================================
+           MATERIAS
+           ===================================================== */
+
+        .materia-detalle {
+
+            padding: 12px;
+
+            border: 1px solid var(--border-light);
+
+            border-radius: 10px;
+
+            margin-bottom: 8px;
+
+            background: white;
+        }
+
+
+        .materia-detalle-superior {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .materia-detalle-superior strong {
+
+            font-size: 12px;
+        }
+
+
+        .nota-materia {
+
+            font-size: 13px;
+
+            font-weight: 850;
+        }
+
+
+        .mini-progreso {
+
+            height: 7px;
+
+            background: #e8edf4;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .mini-progreso-barra {
+
+            height: 100%;
+
+            border-radius: inherit;
+
+            transition: width 0.6s ease;
+        }
+
+
+        .barra-verde {
+            background:
+                linear-gradient(
+                    90deg,
+                    #16a34a,
+                    #4ade80
+                );
+        }
+
+
+        .barra-amarilla {
+            background:
+                linear-gradient(
+                    90deg,
+                    #d97706,
+                    #facc15
+                );
+        }
+
+
+        .barra-roja {
+            background:
+                linear-gradient(
+                    90deg,
+                    #dc2626,
+                    #f87171
+                );
+        }
+
+
+        /* =====================================================
+           RIESGO ACADÉMICO
+           ===================================================== */
+
+        .riesgo {
+
+            padding: 14px;
+
+            border-radius: 11px;
+
+            font-size: 12px;
+
+            font-weight: 650;
+
+            border: 1px solid transparent;
+        }
+
+
+        .riesgo.verde {
+
+            background: var(--success-bg);
+
+            color: var(--success);
+
+            border-color: #bbf7d0;
+        }
+
+
+        .riesgo.amarillo {
+
+            background: var(--warning-bg);
+
+            color: var(--warning);
+
+            border-color: #fde68a;
+        }
+
+
+        .riesgo.rojo {
+
+            background: var(--danger-bg);
+
+            color: var(--danger);
+
+            border-color: #fecaca;
+        }
+
+
+        /* =====================================================
+           MENSAJE VACÍO
+           ===================================================== */
+
+        .mensaje-vacio {
+
+            padding: 50px 20px;
+
+            text-align: center;
+
+            color: var(--text-secondary);
+        }
+
+
+        .mensaje-vacio div {
+
+            margin-bottom: 10px;
+        }
+
+
+        .mensaje-vacio h3 {
+
+            color: var(--text);
+
+            font-size: 16px;
+        }
+
+
+        .mensaje-vacio p {
+
+            font-size: 12px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =====================================================
+           ANIMACIÓN
+           ===================================================== */
+
+        @keyframes aparecer {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(7px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        .panel,
+        .admin-stat {
+
+            animation:
+                aparecer
+                0.35s
+                ease;
+        }
+
+
+        /* =====================================================
+           SCROLLBAR
+           ===================================================== */
+
+        ::-webkit-scrollbar {
+
+            width: 8px;
+
+            height: 8px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+
+            background: #f1f5f9;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+
+            background: #cbd5e1;
+
+            border-radius: 20px;
+        }
+
+
+        ::-webkit-scrollbar-thumb:hover {
+
+            background: #94a3b8;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE TABLET
+           ===================================================== */
+
+        @media (max-width: 1150px) {
+
+            .sidebar {
+
+                width: 235px;
+
+                min-width: 235px;
+            }
+
+
+            .contenido {
+
+                padding: 24px;
+            }
+
+
+            .admin-layout {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .detalle-estudiante {
+
+                position: relative;
+
+                top: 0;
+            }
+        }
+
+
+        /* =====================================================
+           RESPONSIVE TABLET PEQUEÑA
+           ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .admin-estadisticas {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+
+            .topbar {
+
+                flex-direction: column;
+            }
+
+
+            .btn-admin {
+
+                align-self: flex-start;
+            }
+        }
+
+
+        /* =====================================================
+           RESPONSIVE MÓVIL
+           ===================================================== */
+
+        @media (max-width: 650px) {
+
+            .app {
+
+                flex-direction: column;
+            }
+
+
+            .sidebar {
+
+                width: 100%;
+
+                min-width: 100%;
+
+                height: auto;
+
+                min-height: auto;
+
+                position: relative;
+
+                padding: 15px;
+            }
+
+
+            .logo {
+
+                margin-bottom: 15px;
+            }
+
+
+            .usuario-mini {
+
+                margin-bottom: 15px;
+            }
+
+
+            #menu {
+
+                display: grid;
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                gap: 5px;
+            }
+
+
+            .cerrar-sesion {
+
+                margin-top: 15px;
+            }
+
+
+            .contenido {
+
+                padding: 16px;
+            }
+
+
+            .admin-estadisticas {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .admin-layout {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .estudiante-row {
+
+                grid-template-columns:
+                    auto
+                    minmax(0, 1fr);
+            }
+
+
+            .promedio,
+            .estado-badge {
+
+                grid-column: span 2;
+            }
+
+
+            .resumen-academico {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .detalle-avatar {
+
+                width: 58px;
+                height: 58px;
+            }
+
+
+            .detalle-header h2 {
+
+                font-size: 17px;
+            }
+        }
+
+
+        /* =====================================================
+           TELÉFONOS PEQUEÑOS
+           ===================================================== */
+
+        @media (max-width: 420px) {
+
+            #menu {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .topbar h1 {
+
+                font-size: 24px;
+            }
+
+
+            .panel {
+
+                padding: 17px;
+            }
+
+
+            .filtro-admin {
+
+                flex: 1;
+            }
+
+
+            .leyenda-estados {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🎓
+            </div>
+
+            <h2>
+                EduCampus
+            </h2>
+
+        </div>
+
+
+        <div class="usuario-mini">
+
+            <div class="avatar">
+                AD
+            </div>
+
+            <div>
+
+                <strong>
+                    Administrador
+                </strong>
+
+                <small>
+                    Gestión académica
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <nav id="menu">
+
+            <a
+                href="inicio.html"
+                class="menu-item"
+            >
+                🏠 Inicio
+            </a>
+
+
+            <a
+                href="administrador.html"
+                class="menu-item activo"
+            >
+                👨‍🎓 Estudiantes
+            </a>
+
+
+            <a
+                href="cursos.html"
+                class="menu-item"
+            >
+                📚 Cursos
+            </a>
+
+
+            <a
+                href="calificaciones.html"
+                class="menu-item"
+            >
+                ⭐ Calificaciones
+            </a>
+
+
+            <a
+                href="calendario.html"
+                class="menu-item"
+            >
+                📅 Calendario
+            </a>
+
+
+            <a
+                href="notificaciones.html"
+                class="menu-item"
+            >
+                🔔 Notificaciones
+            </a>
+
+        </nav>
+
+
+        <button
+            class="cerrar-sesion"
+            id="cerrarSesion"
+        >
+            🚪 Cerrar sesión
+        </button>
+
+    </aside>
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+         ===================================================== -->
+
+    <main class="contenido">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Gestión de estudiantes 👨‍🎓
+                </h1>
+
+                <p>
+                    Controla el rendimiento académico,
+                    asistencia y situación de cada estudiante.
+                </p>
+
+            </div>
+
+
+            <button
+                class="btn-admin"
+                id="actualizarDatos"
+            >
+                🔄 Actualizar datos
+            </button>
+
+        </header>
+
+
+        <!-- =================================================
+             ESTADÍSTICAS
+             ================================================= -->
+
+        <section
+            class="admin-estadisticas"
+        >
+
+
+            <div class="admin-stat">
+
+                <small>
+                    Total estudiantes
+                </small>
+
+                <h2 id="totalEstudiantes">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="admin-stat">
+
+                <small>
+                    🟢 Estudiantes que pasan
+                </small>
+
+                <h2 id="totalPasando">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="admin-stat">
+
+                <small>
+                    🟡 Estudiantes aplazados
+                </small>
+
+                <h2 id="totalAplazados">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="admin-stat">
+
+                <small>
+                    🔴 Estudiantes reprobados
+                </small>
+
+                <h2 id="totalReprobados">
+                    0
+                </h2>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LEYENDA
+             ================================================= -->
+
+        <div class="leyenda-estados">
+
+
+            <div class="leyenda verde">
+
+                <span class="leyenda-color"></span>
+
+                Verde:
+                70% o más
+            </div>
+
+
+            <div class="leyenda amarillo">
+
+                <span class="leyenda-color"></span>
+
+                Amarillo:
+                60% - 69%
+            </div>
+
+
+            <div class="leyenda rojo">
+
+                <span class="leyenda-color"></span>
+
+                Rojo:
+                menos de 60%
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CONTENIDO ADMINISTRATIVO
+             ================================================= -->
+
+        <div class="admin-layout">
+
+
+            <!-- =================================================
+                 LISTA
+                 ================================================= -->
+
+            <section class="panel">
+
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            Lista de estudiantes
+                        </h2>
+
+                        <p
+                            style="
+                                color:var(--text-secondary);
+                                font-size:12px;
+                            "
+                        >
+                            Busca y selecciona un estudiante
+                            para ver su expediente académico.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUSCADOR -->
+
+                <div class="busqueda-container">
+
+                    <input
+                        type="text"
+                        id="buscarEstudiante"
+                        placeholder="🔎 Buscar por nombre, correo o identificación..."
+                    >
+
+                </div>
+
+
+                <!-- FILTROS -->
+
+                <div class="filtros-admin">
+
+
+                    <button
+                        class="filtro-admin activo"
+                        data-filtro="todos"
+                    >
+                        Todos
+                    </button>
+
+
+                    <button
+                        class="filtro-admin"
+                        data-filtro="pasando"
+                    >
+                        🟢 Pasando
+                    </button>
+
+
+                    <button
+                        class="filtro-admin"
+                        data-filtro="aplazado"
+                    >
+                        🟡 Aplazados
+                    </button>
+
+
+                    <button
+                        class="filtro-admin"
+                        data-filtro="reprobado"
+                    >
+                        🔴 Reprobados
+                    </button>
+
+                </div>
+
+
+                <!-- LISTA DINÁMICA -->
+
+                <div
+                    class="estudiantes-lista"
+                    id="listaEstudiantes"
+                ></div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 INFORMACIÓN DEL ESTUDIANTE
+                 ================================================= -->
+
+            <aside
+                class="panel detalle-estudiante"
+                id="detalleEstudiante"
+            >
+
+
+                <div class="mensaje-vacio">
+
+
+                    <div
+                        style="
+                            font-size:48px;
+                        "
+                    >
+                        👨‍🎓
+                    </div>
+
+
+                    <h3>
+                        Selecciona un estudiante
+                    </h3>
+
+
+                    <p>
+                        Aquí aparecerá toda su
+                        información académica.
+                    </p>
+
+
+                </div>
+
+
+            </aside>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script src="../src/js/administrador.js"></script>
+
+
+</body>
+
+</html>
+```
