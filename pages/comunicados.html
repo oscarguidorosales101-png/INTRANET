@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 04: Tablón de Comunicados, Avisos y Alertas - Intranet Escolar</title>
+</head>
+<body>
+
+  <!-- CABECERA PRINCIPAL Y SELECTOR DE ROL -->
+  <header>
+    <h1>Módulo 04: Tablón de Comunicados, Avisos y Alertas</h1>
+    <p>Portal Institucional de Noticias y Avisos - Intranet Escolar</p>
+    
+    <!-- Selector de Rol / Modo de Prueba -->
+    <fieldset>
+      <legend><strong>Modo de Prueba / Selección de Rol</strong></legend>
+      <label for="selector-rol">Visualizar Sistema Como:</label>
+      <select id="selector-rol">
+        <option value="publicador" selected>Publicador (Admin / Docente)</option>
+        <option value="lector">Lector (Estudiante / Familia)</option>
+      </select>
+    </fieldset>
+  </header>
+
+  <hr>
+
+  <main>
+    <!-- =================================================================== -->
+    <!-- 1. MÓDULO DE CREACIÓN Y PUBLICACIÓN (SOLO ADMIN Y DOCENTES)          -->
+    <!-- =================================================================== -->
+    <section id="sec-creacion">
+      <h2>Redactar y Publicar Nuevo Comunicado</h2>
+      <p><em>Formulario exclusivo para administradores y personal docente.</em></p>
+
+      <form id="form-comunicado">
+        <fieldset>
+          <legend>Datos del Avisos</legend>
+          
+          <!-- Título del aviso -->
+          <p>
+            <label for="input-titulo"><strong>Título del Aviso:</strong></label><br>
+            <input type="text" id="input-titulo" size="60" placeholder="Ej. Suspensión de lecciones por mantenimiento" required>
+          </p>
+
+          <!-- Categoría y Destinatario -->
+          <p>
+            <label for="select-categoria-form"><strong>Categoría:</strong></label>
+            <select id="select-categoria-form" required>
+              <option value="General">General</option>
+              <option value="Alerta Urgente">Alerta Urgente</option>
+              <option value="Evento">Evento</option>
+              <option value="Académico">Académico</option>
+            </select>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            <label for="select-destinatario"><strong>Audiencia / Destinatario:</strong></label>
+            <select id="select-destinatario" required>
+              <option value="Todos">Todos (Toda la Comunidad)</option>
+              <option value="Solo Docentes">Solo Docentes</option>
+              <option value="Sección 10-1">Sección 10-1</option>
+              <option value="Sección 10-2">Sección 10-2</option>
+              <option value="Padres de Familia">Padres de Familia</option>
+            </select>
+          </p>
+
+          <!-- Mensaje / Contenido detallado -->
+          <p>
+            <label for="textarea-mensaje"><strong>Mensaje / Contenido Detallado:</strong></label><br>
+            <textarea id="textarea-mensaje" rows="5" cols="70" placeholder="Escriba aquí el contenido del aviso..." required></textarea>
+          </p>
+
+          <!-- Carga de archivo adjunto -->
+          <p>
+            <label for="input-adjunto"><strong>Adjuntar Archivo (Opcional):</strong></label><br>
+            <input type="file" id="input-adjunto">
+          </p>
+
+          <!-- Checkbox Alerta Importante -->
+          <p>
+            <input type="checkbox" id="check-urgente">
+            <label for="check-urgente"><strong>⚡ Marcar como Alerta Importante del Centro (Mostrar en la sección destacada)</strong></label>
+          </p>
+
+          <br>
+          <button type="submit" id="btn-publicar">Publicar Comunicado</button>
+          <span id="msg-publicacion" style="margin-left: 15px;"></span>
+        </fieldset>
+      </form>
+
+      <br><hr><br>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 2. TABLÓN DE VISUALIZACIÓN DE AVISOS (TODOS LOS ROLES)               -->
+    <!-- =================================================================== -->
+    <section id="sec-tablon">
+      <h2>Tablón Institucional de Avisos</h2>
+
+      <!-- BARRA DE FILTROS -->
+      <fieldset>
+        <legend>Filtros de Búsqueda</legend>
+        
+        <label for="input-busqueda">Buscar por palabra clave:</label>
+        <input type="search" id="input-busqueda" placeholder="Buscar por título o contenido..." size="35">
+
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <label for="select-filtro-categoria">Filtrar por Categoría:</label>
+        <select id="select-filtro-categoria">
+          <option value="Todas">Todas las categorías</option>
+          <option value="Alerta Urgente">Alertas Urgentes</option>
+          <option value="Evento">Eventos</option>
+          <option value="Académico">Académico</option>
+          <option value="General">General</option>
+        </select>
+      </fieldset>
+
+      <br>
+
+      <!-- SECCIÓN DESTACADA DE ALERTAS URGENTES -->
+      <aside id="sec-alertas-urgentes">
+        <h3>🚨 Alertas Urgentes e Importantes del Centro</h3>
+        <div id="container-alertas">
+          <!-- Alertas prioritarias insertadas dinámicamente -->
+        </div>
+      </aside>
+
+      <br>
+
+      <!-- FEED DE COMUNICADOS (TODOS) -->
+      <section id="sec-feed">
+        <h3>📢 Feed de Comunicados Recientes</h3>
+        <div id="container-feed">
+          <!-- Lista de comunicados insertada dinámicamente de más reciente a más antiguo -->
+        </div>
+      </section>
+
+    </section>
+
+  </main>
+
+  <hr>
+
+  <footer>
+    <p><small>Módulo 04 - Tablón de Comunicados &copy; 2026. Intranet Escolar.</small></p>
+  </footer>
+
+  <!-- Script JS Vanilla -->
+  <script src="comunicados.js"></script>
+</body>
+</html>
