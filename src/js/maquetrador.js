@@ -1,56 +1,67 @@
-// script.js - Lógica del Front-end con validación de contraseñas
+// script.js - Lógica de Seguridad y Login Estricto
 
 document.addEventListener('DOMContentLoaded', () => {
     const formLogin = document.getElementById('form-login');
 
-    // 1. Creamos nuestra "Base de Datos" simulada para los 3 roles
-    const usuariosPermitidos = {
+    // 🔒 LA BÓVEDA: Solo estas combinaciones exactas abrirán la puerta
+    const credencialesEstrictas = {
         'estudiante': {
             correo: 'alumno@colegio.edu',
-            contrasena: 'alumno123'
+            clave: 'alumno123'
         },
         'docente': {
             correo: 'profe@colegio.edu',
-            contrasena: 'profe2026'
+            clave: 'profe2026'
         },
         'administracion': {
             correo: 'admin@colegio.edu',
-            contrasena: 'admin1234'
+            clave: 'admin1234'
         }
     };
 
     if (formLogin) {
         formLogin.addEventListener('submit', function(evento) {
-            // Evitamos que la página se recargue
+            // 🛑 GUARDIA DE SEGURIDAD: Detiene la entrada automática
             evento.preventDefault();
 
-            // Obtenemos los valores que ingresó el usuario
-            const rol = document.getElementById('rol').value;
-            const usuario = document.getElementById('usuario').value;
-            const password = document.getElementById('password').value;
+            // Obtenemos lo que escribió el usuario (.trim() quita espacios accidentales)
+            const rolSeleccionado = document.getElementById('rol').value;
+            const inputCorreo = document.getElementById('usuario').value.trim();
+            const inputClave = document.getElementById('password').value.trim();
 
-            // Validación 1: Confirmar que eligió un rol
-            if (rol === "") {
-                alert("Por favor, selecciona un Tipo de Usuario.");
-                return; 
+            // Verificamos que no intente saltarse el rol
+            if (rolSeleccionado === "") {
+                alert("⚠️ ALERTA: Debes seleccionar un Tipo de Usuario primero.");
+                return; // Corta el proceso aquí
             }
 
-            // 2. Buscamos los datos correctos según el rol que eligió
-            const datosCorrectos = usuariosPermitidos[rol];
+            // Extraemos la contraseña correcta de nuestra bóveda para el rol que eligió
+            const datosCorrectos = credencialesEstrictas[rolSeleccionado];
 
-            // 3. Comparamos lo que escribió con nuestra "Base de Datos"
-            if (datosCorrectos.correo === usuario && datosCorrectos.contrasena === password) {
+            // 🕵️‍♂️ VERIFICACIÓN ESTRICTA: Comparamos si es EXACTAMENTE igual (===)
+            if (inputCorreo === datosCorrectos.correo && inputClave === datosCorrectos.clave) {
                 
-                // Si todo está bien, guardamos los datos en la memoria
-                sessionStorage.setItem('usuarioLogueado', usuario);
-                sessionStorage.setItem('rolUsuario', rol);
+                // ✅ ACCESO CONCEDIDO
+                // Guardamos los datos de forma segura en la sesión actual
+                sessionStorage.setItem('usuarioLogueado', inputCorreo);
+                sessionStorage.setItem('rolUsuario', rolSeleccionado);
                 
-                // Y lo enviamos al panel principal
-                window.location.href = 'maquetador.html';
+                // Abrimos la puerta hacia el panel principal
+                window.location.href = 'index.html';
 
             } else {
-                // Si se equivocó en el correo o la contraseña, mostramos un error
-                alert("Error: El correo o la contraseña son incorrectos para el rol seleccionado.");
+                
+                // ❌ ACCESO DENEGADO
+                alert("❌ ACCESO DENEGADO: Credenciales incorrectas para el perfil de " + rolSeleccionado.toUpperCase());
+                
+                // Borramos lo que escribió en la contraseña para que intente de nuevo
+                document.getElementById('password').value = '';
+                
+                // Opcional: Hacemos que la cajita de la contraseña se ponga roja por un segundo
+                document.getElementById('password').style.borderColor = "red";
+                setTimeout(() => {
+                    document.getElementById('password').style.borderColor = "#cccccc";
+                }, 2000);
             }
         });
     }
