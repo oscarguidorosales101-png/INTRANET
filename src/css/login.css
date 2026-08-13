@@ -1,0 +1,215 @@
+/* style.css - Estilo Escolar Interactivos y Animado */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #1e1b4b;       /* Azul Nocturno */
+    --accent-glow: #ffb703;   /* Amarillo Dorado Brillantísimo */
+    --accent-btn: #fb8500;    /* Naranja Neón Escolar */
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --border: #cbd5e1;
+    --radius: 14px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* 1. CAMBIO DE FONDO: Fondo vivo con gradiente animado en movimiento */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(-45deg, #0f172a, #1e3a8a, #312e81, #4c1d95);
+    background-size: 400% 400%;
+    animation: moverFondo 12s ease infinite;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+}
+
+@keyframes moverFondo {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Esferas luminosas de fondo */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    z-index: 0;
+}
+
+body::before {
+    width: 350px;
+    height: 350px;
+    background: #f59e0b;
+    top: -50px;
+    left: -50px;
+}
+
+body::after {
+    width: 380px;
+    height: 380px;
+    background: #06b6d4;
+    bottom: -50px;
+    right: -50px;
+}
+
+/* Tarjeta Principal */
+main {
+    position: relative;
+    z-index: 1;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    padding: 45px 38px;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 420px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Título con birrete */
+main h1 {
+    color: #1e3a8a;
+    font-size: 1.9rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+main h1::before {
+    content: '🎓';
+    font-size: 2rem;
+}
+
+main p {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+/* Formulario */
+form div {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Inputs y Selects */
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 13px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background-color: #f8fafc;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: #3b82f6;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+}
+
+/* 2. BOTÓN ULTRA BRILLANTE Y CON EFECTO DE LUZ */
+button[type="submit"] {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--accent-glow) 0%, var(--accent-btn) 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    cursor: pointer;
+    margin-top: 10px;
+    
+    /* Brillo Neón Constante */
+    box-shadow: 0 0 15px rgba(251, 133, 0, 0.5), 0 0 30px rgba(255, 183, 3, 0.3);
+    transition: all 0.2s ease;
+}
+
+/* Destello de luz pasando por encima del botón */
+button[type="submit"]::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    transform: rotate(25deg);
+    transition: all 0.5s ease;
+}
+
+/* 3. ANIMACIÓN DE BRINCO / SALTO AL TOCAR O PASAR EL CURSOR */
+button[type="submit"]:hover {
+    animation: brinco 0.5s ease infinite alternate;
+    box-shadow: 0 0 25px rgba(251, 133, 0, 0.8), 0 0 45px rgba(255, 183, 3, 0.6);
+}
+
+button[type="submit"]:hover::after {
+    left: 100%;
+}
+
+button[type="submit"]:active {
+    transform: scale(0.95) translateY(2px);
+}
+
+/* Keyframe del Brinco/Salto */
+@keyframes brinco {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Entrada de la tarjeta */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
