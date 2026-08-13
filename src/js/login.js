@@ -33,18 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (usuarioValido) {
                 // 4. Guardamos la SESIÓN ACTIVA en localStorage
-                localStorage.setItem('usuarioLogueado', usuarioValido.correo);
-                localStorage.setItem('rolUsuario', usuarioValido.rol);
+                sessionStorage.setItem('usuarioLogueado', usuarioValido.correo);
+                sessionStorage.setItem('rolUsuario', usuarioValido.rol);
+                localStorage.removeItem('usuarioLogueado');
+                localStorage.removeItem('rolUsuario');
 
-                if (usuarioValido.rol === 'estudiante') {
-                    // Redirigimos al panel de estudiante
-                    window.location.href = 'panel_estudiante.html';
-                } else if (usuarioValido.rol === 'docente') {
-                    // Redirigimos al panel de docente
-                    window.location.href = 'panel_docente.html';
+                if (usuarioValido.rol === 'estudiante' || usuarioValido.rol === 'docente') {
+                    window.location.replace('academico.html');
                 } else {
-                    // Redirigimos al panel principal
-                    window.location.href = 'administrador.html';
+                    window.location.replace('administrador.html');
                 }
             } else {
                 alert("Error: Correo, contraseña o rol incorrectos.");

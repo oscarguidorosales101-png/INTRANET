@@ -112,11 +112,31 @@ const mockData = {
   }
 };
 
+const gruposDocentes = ["7-1", "7-2", "7-3", "8-1", "8-2", "8-3", "9-1", "9-2", "9-3", "10-1", "10-2", "10-3", "11-1", "11-2"];
+const nombresDocentes = ["Sofía Mora", "Mateo Rojas", "Valentina Castro", "Daniel Vargas", "Camila Herrera", "Sebastián Jiménez", "Lucía Ramírez", "Andrés Gómez", "Mariana Solano", "Gabriel Ruiz", "Elena Sánchez", "Nicolás Torres", "Paula Chaves", "Diego Méndez", "Andrea Cordero"];
+mockData.grupos = gruposDocentes.map(id => ({ id, nombre: `Sección ${id}` }));
+mockData.estudiantes = gruposDocentes.flatMap((grupo, indiceGrupo) => Array.from({ length: 13 }, (_, indice) => ({ id: 700 + indiceGrupo * 20 + indice, nombre: `${nombresDocentes[(indiceGrupo * 3 + indice) % nombresDocentes.length]} ${["Rodríguez", "Vargas", "Castro", "Mora", "Rojas", "Herrera"][indice % 6]}`, grupo })));
+mockData.estudiantes.forEach((estudiante, indice) => {
+  mockData.calificaciones[estudiante.grupo] ||= {};
+  mockData.asignaturas.forEach((asignatura, indiceAsignatura) => {
+    mockData.calificaciones[estudiante.grupo][asignatura.id] ||= {};
+    const base = 68 + (indice * 7 + indiceAsignatura * 5) % 30;
+    mockData.calificaciones[estudiante.grupo][asignatura.id][estudiante.id] = { tarea1: base, examen1: Math.max(0, base - 3), cotidiano: Math.min(100, base + 2) };
+  });
+});
+
 // ============================================================================
 // 2. ESTADO GLOBAL DE LA APLICACIÓN
 // ============================================================================
+const rolSesion = sessionStorage.getItem("rolUsuario");
+const usuarioSesion = sessionStorage.getItem("usuarioLogueado");
+
+if (!usuarioSesion || !["docente", "estudiante"].includes(rolSesion)) {
+  window.location.replace(rolSesion === "administracion" ? "administrador.html" : "login.html");
+}
+
 const appState = {
-  currentRole: "docente",       // 'docente' | 'estudiante'
+  currentRole: rolSesion,        // 'docente' | 'estudiante'
   currentTabDocente: "calificaciones", // 'calificaciones' | 'asistencia'
   selectedGrupo: "10-1",
   selectedAsignatura: "MAT",
@@ -167,7 +187,10 @@ function cacheDomElements() {
     totalAusenciasVal: document.getElementById("total-ausencias-val"),
     ausenciasInjustificadasVal: document.getElementById("ausencias-injustificadas-val"),
     tbodyBoletin: document.getElementById("tbody-boletin"),
-    asistenciaDetalleResumen: document.getElementById("asistencia-detalle-resumen")
+    asistenciaDetalleResumen: document.getElementById("asistencia-detalle-resumen"),
+    btnCerrarSesion: document.getElementById("btn-cerrar-sesion"),
+    linkClases: document.getElementById("link-clases"),
+    dialogoCerrarSesion: document.getElementById("dialogo-cerrar-sesion")
   };
 }
 
@@ -176,8 +199,12 @@ function cacheDomElements() {
 // ============================================================================
 document.addEventListener("DOMContentLoaded", () => {
   cacheDomElements();
+  dom.selectorRol.value = appState.currentRole;
+  dom.selectorRol.disabled = true;
+  dom.selectorRol.setAttribute("aria-label", "Rol de la sesion activa");
   inicializarOpcionesFiltros();
   configurarEventListeners();
+  dom.linkClases.hidden = appState.currentRole !== "docente";
   
   // Establecer fecha por defecto en el control de asistencia
   dom.inputFechaAsistencia.value = appState.selectedFechaAsistencia;
@@ -202,6 +229,11 @@ function inicializarOpcionesFiltros() {
 
   appState.selectedGrupo = dom.selectGrupo.value;
   appState.selectedAsignatura = dom.selectAsignatura.value;
+  const grupoSolicitado = new URLSearchParams(window.location.search).get("grupo");
+  if (grupoSolicitado && mockData.grupos.some(grupo => grupo.id === grupoSolicitado)) {
+    appState.selectedGrupo = grupoSolicitado;
+    dom.selectGrupo.value = grupoSolicitado;
+  }
 }
 
 /**
@@ -251,6 +283,14 @@ function configurarEventListeners() {
     appState.selectedPeriodoEstudiante = e.target.value;
     renderizarVistaEstudiante();
   });
+
+  dom.btnCerrarSesion.addEventListener("click", () => dom.dialogoCerrarSesion.showModal());
+  dom.dialogoCerrarSesion.addEventListener("close", () => {
+    if (dom.dialogoCerrarSesion.returnValue === "confirmar") {
+      sessionStorage.clear();
+      window.location.replace("login.html");
+    }
+  });
 }
 
 // ============================================================================
@@ -265,10 +305,12 @@ function actualizarVistaPorRol() {
     dom.vistaDocente.style.display = "block";
     dom.vistaEstudiante.style.display = "none";
     renderizarContenidoDocente();
+    dom.linkClases.hidden = false;
   } else {
     dom.vistaDocente.style.display = "none";
     dom.vistaEstudiante.style.display = "block";
     renderizarVistaEstudiante();
+    dom.linkClases.hidden = true;
   }
 }
 

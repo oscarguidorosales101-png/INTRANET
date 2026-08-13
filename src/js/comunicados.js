@@ -56,8 +56,15 @@ const mockComunicados = [
 // ============================================================================
 // 2. ESTADO GLOBAL
 // ============================================================================
+const rolSesion = sessionStorage.getItem("rolUsuario");
+const usuarioSesion = sessionStorage.getItem("usuarioLogueado");
+
+if (!usuarioSesion || !["administracion", "docente", "estudiante"].includes(rolSesion)) {
+  window.location.replace("login.html");
+}
+
 const appState = {
-  currentRole: "publicador", // 'publicador' | 'lector'
+  currentRole: ["administracion", "docente"].includes(rolSesion) ? "publicador" : "lector",
   searchKeyword: "",
   selectedCategory: "Todas"
 };
@@ -95,6 +102,9 @@ function cacheDomElements() {
 // ============================================================================
 document.addEventListener("DOMContentLoaded", () => {
   cacheDomElements();
+  dom.selectorRol.value = appState.currentRole;
+  dom.selectorRol.disabled = true;
+  dom.selectorRol.setAttribute("aria-label", "Rol de la sesion activa");
   configurarEventListeners();
   actualizarVisibilidadCreacion();
   renderizarVistas();

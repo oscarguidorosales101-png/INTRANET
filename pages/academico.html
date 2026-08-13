@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 03: Calificaciones y Control de Asistencia - Intranet Escolar</title>
+  <link rel="stylesheet" href="../src/css/app.css">
 </head>
-<body>
+<body class="academico-page">
 
   <!-- CABECERA PRINCIPAL Y SELECTOR DE ROL -->
   <header>
@@ -21,6 +22,10 @@
         <option value="estudiante">Vista Estudiante / Familia</option>
       </select>
     </fieldset>
+    <div class="panel-actions">
+      <a id="link-clases" class="panel-link" href="clases.html">Clases</a>
+      <button id="btn-cerrar-sesion" class="logout-button" type="button">Cerrar sesión</button>
+    </div>
   </header>
 
   <hr>
@@ -198,6 +203,16 @@
   </footer>
 
   <!-- Lógica en JS Vanilla -->
-  <script src="academico.js"></script>
+  <dialog id="dialogo-cerrar-sesion" class="logout-dialog">
+    <form method="dialog">
+      <h2>¿Cerrar sesión?</h2>
+      <p>¿Estás seguro de que deseas cerrar sesión?</p>
+      <div class="dialog-actions">
+        <button value="cancelar" class="dialog-cancel" type="submit">Cancelar</button>
+        <button value="confirmar" class="dialog-confirm" type="submit">Sí, cerrar sesión</button>
+      </div>
+    </form>
+  </dialog>
+  <script src="../src/js/academico.js"></script>
 </body>
 </html>
