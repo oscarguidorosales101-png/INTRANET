@@ -36,8 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('usuarioLogueado', usuarioValido.correo);
                 localStorage.setItem('rolUsuario', usuarioValido.rol);
 
-                // Redirigimos al panel principal
-                window.location.href = 'index.html';
+                if (usuarioValido.rol === 'estudiante') {
+                    // Redirigimos al panel de estudiante
+                    window.location.href = 'panel_estudiante.html';
+                } else if (usuarioValido.rol === 'docente') {
+                    // Redirigimos al panel de docente
+                    window.location.href = 'panel_docente.html';
+                } else {
+                    // Redirigimos al panel principal
+                    window.location.href = 'administrador.html';
+                }
             } else {
                 alert("Error: Correo, contraseña o rol incorrectos.");
             }
